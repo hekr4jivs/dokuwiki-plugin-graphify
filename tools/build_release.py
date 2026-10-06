@@ -4,7 +4,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import hashlib
 
 root=Path(__file__).resolve().parents[1]
-files=['plugin.info.txt','helper.php','syntax.php','script.js','style.css',
+files=['plugin.info.txt','helper.php','syntax.php','pdf.php','action.php','conf/default.php','conf/metadata.php','script.js','style.css',
        'vendor/vis-network.min.js','vendor/LICENSE-MIT','LICENSE','README.md','THIRD_PARTY.md','CHANGELOG.md']
 target=root/'dist'/'graphify.zip'
 target.parent.mkdir(exist_ok=True)

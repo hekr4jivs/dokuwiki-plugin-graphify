@@ -20,11 +20,24 @@ class syntax_plugin_graphify extends \dokuwiki\Extension\SyntaxPlugin
     }
     public function render($mode, Doku_Renderer $renderer, $data)
     {
-        if ($mode !== 'xhtml') return false;
+        if ($mode === 'metadata') {
+            if ($data[0] === 'media') {
+                $id = ltrim($data[1], ':');
+                if (preg_match('/^[a-z0-9][a-z0-9_:.-]*\.json$/D', $id) && strpos($id, '..') === false)
+                    $renderer->meta['relation']['media'][$id] = is_file(mediaFN($id));
+            }
+            return true;
+        }
+        if ($mode !== 'xhtml' && $mode !== 'dw2pdf') return false;
         $renderer->info['cache'] = false;
         try {
             $helper = plugin_load('helper', 'graphify');
             $model = $data[0] === 'inline' ? $helper->model($data[1]) : $helper->media($data[1]);
+            if ($mode === 'dw2pdf' || is_a($renderer, 'renderer_plugin_dw2pdf')) {
+                require_once __DIR__ . '/pdf.php';
+                $renderer->doc .= (new GraphifyPdf($this))->html($model);
+                return true;
+            }
             $json = json_encode($model, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR);
             $renderer->doc .= '<div class="graphify-widget" style="width:100%;min-width:0;box-sizing:border-box">'
                 . '<script type="application/json" class="graphify-data">' . $json . '</script>'

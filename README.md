@@ -61,6 +61,41 @@ can access all graph data included in a page they may read. There is no per-node
 The canvas uses the full Wiki content column initially. Details are optional.
 Fullscreen uses the available viewport without changing the Wiki template.
 
+## PDF export with dw2pdf
+
+The same JSON blocks and media references automatically become static PNG diagrams
+in [dw2pdf](https://www.dokuwiki.org/plugin:dw2pdf) exports. Browser interaction stays
+unchanged. Install a Kroki instance with Graphviz support and select its approved URL
+in **Configuration Settings > graphify > pdf_backend_url**. The default is empty;
+the plugin sends no graph data to a rendering service until you configure one.
+
+Alternatively, add server-local settings to `conf/local.protected.php`:
+
+```php
+$conf['plugin']['graphify']['pdf_backend_url'] = 'http://your-kroki:8000';
+$conf['plugin']['graphify']['pdf_timeout'] = 30;
+```
+
+Choose a private/self-hosted backend for confidential graphs. HTTPS certificate
+verification stays enabled and redirects are refused. Authors cannot choose the
+backend or provide DOT attributes, image paths or remote URLs. Responses are
+bounded to 20 MiB, 16000 pixels per dimension and 40 million pixels in total.
+Failures produce a visible error in the PDF rather than an empty diagram.
+
+The static layout includes all nodes and connections, independently of a reader's
+current browser filters or drag positions. Graphify uses a Graphviz layout with
+community colors and confidence labels/styles. Hyperedges appear as labelled
+diamonds joined to their members. Archify keeps initial positions, labels, sublabels,
+tags and edge variants; explanatory cards become searchable text below the image.
+Static routing and styling can differ from the interactive canvas. Very large
+graphs may exceed renderer limits or need smaller views for legible paper output.
+
+PNG results are cached in the Wiki's private data cache. No public media asset is
+created. JSON validation and media ACL checks happen before the image cache is read.
+The plugin forces a fresh document render for each dw2pdf page, book or namespace
+export because dw2pdf's shared final PDF cache would otherwise skip those checks.
+Cached PNGs avoid repeated Kroki calls. This also retries earlier renderer failures.
+
 ## Supported JSON
 
 **Graphify:** node-link exports with `nodes`, `links`, `directed`, community IDs and
@@ -87,14 +122,16 @@ metadata use text nodes; PHP escapes script-breakout sequences. Authors cannot
 supply script/image URLs or arbitrary renderer options. Referenced media ACLs are
 checked before embedding data in the page response, and render caching is disabled.
 
-Graph data remains in the browser. The renderer does not call an AI service,
-Graphify backend, Kroki or a CDN. Bundled vis-network is included in DokuWiki's
+Interactive graph data remains in the browser. The browser renderer does not call
+an AI service, Graphify backend, Kroki or a CDN. The optional PDF renderer sends
+validated diagram text to the administrator-configured Kroki instance. Bundled vis-network is included in DokuWiki's
 standard cached JavaScript bundle. Other plugins may have their own network behavior.
 
 ## Development and checks
 
 ```sh
 php tests/php-smoke.php
+php tests/pdf-smoke.php
 npm ci
 npx playwright install chromium
 npm run test:browser
@@ -102,7 +139,8 @@ python tools/build_release.py
 ```
 
 The PHP checks cover both schemas, malformed inputs, referential integrity, media
-ACL denial and escaped hostile labels. Browser checks cover multiple instances,
+ACL denial and escaped hostile labels. PDF checks cover DOT escaping, direction,
+hyperedges, positions, cards, backend failure, PNG validation and export cache handling. Browser checks cover multiple instances,
 search, filters, zoom, paths, theme, fullscreen, PNG download and narrow screens.
 All fixtures are synthetic. The release builder includes only runtime files,
 documentation and licenses in `dist/graphify.zip`.

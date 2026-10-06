@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-      - run: php -l helper.php && php -l syntax.php && php tests/php-smoke.php
+      - run: php -l helper.php && php -l syntax.php && php -l pdf.php && php -l action.php && php tests/php-smoke.php && php tests/pdf-smoke.php
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
