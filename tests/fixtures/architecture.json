@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Example application architecture"
+  },
+  "components": [
+    {
+      "id": "client",
+      "type": "external",
+      "label": "Client",
+      "sublabel": "Browser",
+      "pos": [
+        20,
+        60
+      ],
+      "size": [
+        180,
+        100
+      ]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "API service",
+      "sublabel": "Application runtime",
+      "tag": "Example",
+      "pos": [
+        330,
+        60
+      ],
+      "size": [
+        200,
+        100
+      ]
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "Database",
+      "sublabel": "Persistent records",
+      "pos": [
+        670,
+        60
+      ],
+      "size": [
+        200,
+        100
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "request",
+      "from": "client",
+      "to": "api",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "query",
+      "from": "api",
+      "to": "store",
+      "label": "SQL",
+      "variant": "dashed"
+    }
+  ],
+  "boundaries": [],
+  "cards": [
+    {
+      "title": "Synthetic example",
+      "items": [
+        "All names and components are invented."
+      ]
+    }
+  ]
+}

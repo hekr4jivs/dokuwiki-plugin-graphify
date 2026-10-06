@@ -1,0 +1,7 @@
+base graphify
+author Heinrich Krupp
+date 2026-10-06
+name Graphify JSON Renderer
+desc Render embedded Graphify and Archify JSON as interactive graphs directly in DokuWiki
+url https://github.com/hekr4jivs/dokuwiki-plugin-graphify
+version 0.1.0

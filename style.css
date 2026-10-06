@@ -1,0 +1,50 @@
+/* Copyright (c) 2026 Heinrich Krupp. SPDX-License-Identifier: GPL-2.0-only */
+/* All rules are scoped to the graph, without changing the Wiki column layout. */
+.dokuwiki .graphify-widget, .graphify-widget {
+    --gf-bg: #ffffff; --gf-text: #363635; --gf-border: #b1b2b3; --gf-paper: #f4f4f4;
+    width: 100%; min-width: 0; max-width: none; box-sizing: border-box;
+    background: var(--gf-bg); color: var(--gf-text); border: 1px solid var(--gf-border);
+    border-radius: 6px; margin: 1em 0; overflow: hidden; font: 14px/1.5 system-ui, sans-serif;
+}
+.graphify-widget.graphify-dark { --gf-bg: #262626; --gf-text: #f2f2f2; --gf-border: #666; --gf-paper: #363635; }
+.graphify-widget * { box-sizing: border-box; }
+.graphify-widget .graphify-header { display: flex; flex-wrap: wrap; gap: .5em 1em; justify-content: space-between; padding: 12px; }
+.graphify-widget .graphify-count { font-size: 12px; }
+.graphify-widget .graphify-toolbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 0 12px 12px; }
+.graphify-widget button, .graphify-widget input { font: inherit; }
+.graphify-widget button {
+    display: inline-block; width: auto; margin: 0; padding: 5px 10px; min-height: 32px;
+    background: var(--gf-paper); color: var(--gf-text); border: 1px solid var(--gf-border); border-radius: 4px; cursor: pointer;
+}
+.graphify-widget button:hover { border-color: #2c5eaa; }
+.graphify-widget button:focus-visible, .graphify-widget input:focus-visible { outline: 2px solid #2c5eaa; outline-offset: 2px; }
+.graphify-widget .graphify-search-label { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0 6px 0 0; }
+.graphify-widget input[type=search] { width: 210px; max-width: 100%; padding: 5px 8px; background: var(--gf-bg); color: var(--gf-text); border: 1px solid var(--gf-border); border-radius: 4px; }
+.graphify-widget .graphify-results { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px; }
+.graphify-widget [hidden] { display: none !important; }
+.graphify-widget .graphify-body { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--gf-border); }
+.graphify-widget.graphify-details .graphify-body { grid-template-columns: minmax(0, 1fr) 260px; }
+.graphify-widget:not(.graphify-details) .graphify-aside { display: none; }
+.graphify-widget .graphify-canvas { width: 100%; min-width: 0; height: 600px; background: var(--gf-bg); overflow: hidden; }
+.graphify-widget .graphify-aside { min-width: 0; max-height: 600px; overflow: auto; padding: 12px; border-left: 1px solid var(--gf-border); background: var(--gf-paper); }
+.graphify-widget .graphify-filters { display: grid; gap: 6px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--gf-border); }
+.graphify-widget .graphify-filter { display: flex; align-items: center; gap: 6px; margin: 0; cursor: pointer; font-size: 12px; }
+.graphify-widget .graphify-filter input { margin: 0; }
+.graphify-widget .graphify-dot { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 10px; }
+.graphify-widget .graphify-detail p { margin: 8px 0; }
+.graphify-widget .graphify-neighbors { display: grid; gap: 5px; margin: 12px 0; }
+.graphify-widget .graphify-neighbors button { text-align: left; overflow-wrap: anywhere; }
+.graphify-widget .graphify-metadata { white-space: pre-wrap; overflow-wrap: anywhere; padding: 10px; margin: 12px 0 0; background: var(--gf-bg); color: var(--gf-text); font-size: 11px; }
+.graphify-widget .graphify-status { margin: 0; padding: 8px 12px; border-top: 1px solid var(--gf-border); font-size: 12px; }
+.graphify-widget .graphify-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding: 12px; border-top: 1px solid var(--gf-border); }
+.graphify-widget .graphify-card { padding: 10px; background: var(--gf-paper); border: 1px solid var(--gf-border); border-radius: 4px; }
+.graphify-widget .graphify-card ul { padding-left: 18px; margin: 8px 0 0; }
+.graphify-widget .vis-network { position: relative; overflow: hidden; touch-action: none; }
+.graphify-widget .vis-tooltip { position: absolute; visibility: hidden; padding: 6px 10px; white-space: pre-wrap; max-width: 320px; background: var(--gf-paper); color: var(--gf-text); border: 1px solid var(--gf-border); border-radius: 4px; z-index: 30; }
+.graphify-widget:fullscreen { width: 100vw !important; height: 100vh; margin: 0; overflow: auto; border-radius: 0; }
+.graphify-widget:fullscreen .graphify-canvas, .graphify-widget:fullscreen .graphify-aside { height: calc(100vh - 140px); max-height: none; }
+@media (max-width: 800px) {
+    .graphify-widget.graphify-details .graphify-body { grid-template-columns: minmax(0, 1fr); }
+    .graphify-widget .graphify-aside { max-height: 300px; border-left: 0; border-top: 1px solid var(--gf-border); }
+    .graphify-widget .graphify-canvas { height: 480px; }
+}

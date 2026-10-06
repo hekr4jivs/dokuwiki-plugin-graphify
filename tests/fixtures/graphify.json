@@ -1,0 +1,18 @@
+{
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {"id": "guide", "label": "Example guide", "community": 0, "source_file": "example-guide.md"},
+    {"id": "service", "label": "Example service", "community": 0, "source_file": "example-service.md"},
+    {"id": "database", "label": "Example database", "community": 1, "source_file": "example-schema.sql"},
+    {"id": "backup", "label": "Example backup", "community": 1, "source_file": "example-backup.md"}
+  ],
+  "links": [
+    {"source": "guide", "target": "service", "relation": "documents", "confidence": "EXTRACTED", "confidence_score": 1.0},
+    {"source": "service", "target": "database", "relation": "uses", "confidence": "EXTRACTED", "confidence_score": 1.0},
+    {"source": "backup", "target": "database", "relation": "protects", "confidence": "INFERRED", "confidence_score": 0.5},
+    {"source": "guide", "target": "backup", "relation": "mentions", "confidence": "AMBIGUOUS", "confidence_score": 0.2}
+  ],
+  "hyperedges": []
+}
